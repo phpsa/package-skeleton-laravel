@@ -1,13 +1,6 @@
-name: Release
+name: Semantic Release
 
-on:
-  pull_request:
-    branches:
-      - master
-  push:
-    branches:
-      - master
-      - beta
+on: [push]
 
 jobs:
   release:
@@ -21,6 +14,22 @@ jobs:
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
+          branches: |    
+            [
+              '+([0-9])?(.{+([0-9]),x}).x',
+              'master', 
+              'main',
+              'next', 
+              'next-major', 
+              {
+                name: 'beta', 
+                prerelease: true
+              }, 
+              {
+                name: 'alpha', 
+                prerelease: true
+              }
+            ]
           extra_plugins: |
             @semantic-release/commit-analyzer
             @semantic-release/git
